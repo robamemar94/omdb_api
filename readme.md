@@ -7,7 +7,8 @@ This is a simple Movie API that allows you to perform operations related to movi
 ## API Information
 
 - **API Version**: 1.0.0
-- **Base URL**: `https://brite-test-388527781986.us-central1.run.app`
+- **Base URL**: https://brite-test-388527781986.us-central1.run.app
+- **Swagger**: https://app.swaggerhub.com/apis/ROBERTOAMENEIROS/movie-api/1.0.0#/
 
 ---
 
@@ -56,6 +57,9 @@ This is a simple Movie API that allows you to perform operations related to movi
    #### Responses:
    - **201 Created**: Movie successfully added.
    - **400 Bad Request**: The request body is missing required fields.
+   - **404 Not Found**: Movie not found in OMDB.
+   - **409 Conflict**: The movie is already registered in the database.
+
    #### Notes:
    - The title of the movie must be provided in the request. Upon adding the movie, the API fetches all relevant movie details from the OMDB API and saves them in the database.
 
