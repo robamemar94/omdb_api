@@ -2,8 +2,7 @@
 
 ## Overview
 
-This is a simple Movie API that allows you to perform operations related to movies, such as retrieving a list of movies, adding a new movie, or deleting a movie. Additionally, it includes functionality to register and log in users.
-
+This is a simple Movie API that allows you to perform operations related to movies, such as retrieving a list of movies, adding a new movie, or deleting a movie. Additionally, it includes functionality to register and log in users. This API is implemented without using any Python frameworks, providing a straightforward approach to handling HTTP requests and responses.
 ## API Information
 
 - **API Version**: 1.0.0
