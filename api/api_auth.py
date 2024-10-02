@@ -62,7 +62,7 @@ def handle_login(handler):
         handler.send_error(400, 'Username and password are required')
         return
 
-    action = handler.path.strip('/').split('?')[0]  # register or login
+    action = handler.path.strip('/').split('?')[0]
     username = data['username']
     password = data['password']
 

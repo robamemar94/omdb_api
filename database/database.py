@@ -1,5 +1,6 @@
 import logging
 import os
+import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
@@ -12,6 +13,9 @@ logger = logging.getLogger(__name__)
 db_path = os.path.join(os.getcwd(), 'local_movies.db')
 DATABASE_URL = f'sqlite:///{db_path}'
 
+TESTING_MODE: bool = 'test' in sys.argv[0]
+if TESTING_MODE:
+    DATABASE_URL = DATABASE_URL.replace('.db', '_test.db')
 
 class DatabaseSession:
     def __init__(self):
