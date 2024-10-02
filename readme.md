@@ -176,11 +176,10 @@ This process ensures that when you start the API, there will be movies available
 ## Environment Variables
    To run the application, you need to define some environment variables. Below are the required variables:
    
-   - OMDB_API_KEY: (required) Your API key to access the OMDB database. You 
-   can obtain it here.
+   - **OMDB_API_KEY**: (required) Your API key to access the OMDB database.
    
-   - SECRET_KEY: (required) A secret key used for authentication and token 
-   signing. Make sure to use a secure key.
+   - **SECRET_KEY**: (required) A secret key used for authentication and token 
+   signing. 
    
    - MOVIE_TITLES: (optional) A comma-separated list of movie titles. If not 
    set, the application will use default values
