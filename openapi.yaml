@@ -1,0 +1,237 @@
+openapi: 3.0.0
+info:
+  title: Movie API
+  version: 1.0.0
+  description: API for managing movie operations
+servers:
+  - url: http://localhost:8000  # Change to your server URL
+paths:
+  /movies:
+    get:
+      summary: Retrieve a list of movies
+      description: This endpoint retrieves a paginated list of movies from the database, with optional filters for title, year, movie type, and IMDb ID.
+      tags:
+        - Movies
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          description: Number of movies to return per page (default is 10).
+          schema:
+            type: integer
+            default: 10
+        - name: page
+          in: query
+          required: false
+          description: Page number for pagination (default is 1).
+          schema:
+            type: integer
+            default: 1
+        - name: order_by
+          in: query
+          required: false
+          description: Field to order the results by (default is title).
+          schema:
+            type: string
+            enum:
+              - title
+              - year
+              - movie_type
+            default: title
+        - name: title
+          in: query
+          required: false
+          description: Filter movies by title.
+          schema:
+            type: string
+        - name: year
+          in: query
+          required: false
+          description: Filter movies by release year (e.g., "1999").
+          schema:
+            type: string
+            example: "1999"
+        - name: movie_type
+          in: query
+          required: false
+          description: Filter movies by type (e.g., "Action").
+          schema:
+            type: string
+            example: "Action"
+        - name: imdb_id
+          in: query
+          required: false
+          description: Filter movies by IMDb ID (e.g., "tt1234567").
+          schema:
+            type: string
+            example: "tt1234567"
+      responses:
+        '200':
+          description: A successful response containing the list of movies
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      total_count:
+                        type: integer
+                      next_page:
+                        type: integer
+                      prev_page:
+                        type: integer
+                      movies:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                            year:
+                              type: string
+                            movie_type:
+                              type: string
+                            imdb_id:
+                              type: string
+                  message:
+                    type: string
+        '400':
+          description: Bad request due to invalid input
+        '404':
+          description: Not found
+    post:
+      summary: Add a new movie
+      description: This endpoint allows you to add a new movie to the database by providing the movie title.
+      tags:
+        - Movies
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+              required:
+                - title
+      responses:
+        '201':
+          description: Movie created successfully
+        '400':
+          description: Movie title is required
+  /movies/{movie_id}:
+    get:
+      summary: Get a movie by ID
+      description: Retrieve detailed information about a specific movie using its ID.
+      tags:
+        - Movies
+      parameters:
+        - name: movie_id
+          in: path
+          required: true
+          description: ID of the movie to retrieve.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Movie details retrieved successfully
+        '404':
+          description: Movie not found
+    delete:
+      summary: Delete a movie by ID
+      description: Remove a movie from the database using its ID.
+      tags:
+        - Movies
+      parameters:
+        - name: movie_id
+          in: path
+          required: true
+          description: ID of the movie to delete.
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Movie deleted successfully
+        '404':
+          description: Movie not found
+
+  /register:
+    post:
+      summary: Register a new user
+      description: This endpoint allows new users to register by providing a username and password.
+      tags:
+        - Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+        '400':
+          description: Bad request due to invalid input
+        '409':
+          description: Conflict (user already exists)
+
+  /login:
+    post:
+      summary: Login an existing user
+      description: This endpoint allows existing users to log in and obtain an authentication token by providing their username and password.
+      tags:
+        - Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: Successful login, returns an authentication token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  token:
+                    type: string
+                  message:
+                    type: string
+        '400':
+          description: Bad request due to invalid input
+        '401':
+          description: Unauthorized (invalid credentials)
