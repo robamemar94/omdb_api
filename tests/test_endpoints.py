@@ -74,14 +74,14 @@ class TestMovieAPI(unittest.TestCase):
         response = self.conn.getresponse()
         self.assertEqual(response.status, 201)
 
-    @patch('movie_api.src.services.jwt_service.verify_jwt')
-    def test_delete_movie_authorized_2(self, mock_verify_jwt):
+    @patch('services.jwt_service.verify_jwt')
+    def test_delete_movie_authorized(self, mock_verify_jwt):
         """
         Test for the DELETE /movies/{id} endpoint with valid authorization.
         """
 
         # Mock the verify_jwt to simulate successful verification
-        mock_verify_jwt.return_value = 'test_user_id'  
+        mock_verify_jwt.return_value = 'test_user_id'
 
         movie_id = 1
         headers = {'Authorization': 'Bearer fake_token'}
@@ -94,8 +94,8 @@ class TestMovieAPI(unittest.TestCase):
         get_response = self.conn.getresponse()
         self.assertEqual(get_response.status, 404)
 
-    @patch('movie_api.src.services.jwt_service.verify_jwt')
-    def test_delete_movie_unauthorized_2(self, mock_verify_jwt):
+    @patch('services.jwt_service.verify_jwt')
+    def test_delete_movie_unauthorized(self, mock_verify_jwt):
         """
         Test for the DELETE /movies/{id} endpoint with invalid authorization.
         """

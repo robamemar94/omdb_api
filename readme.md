@@ -169,3 +169,18 @@ This process ensures that when you start the API, there will be movies available
 
 - **Google Cloud Run**: The API is deployed using Google Cloud Run.
 - **Database**: Instead of using Cloud SQL due to associated costs and the lightweight nature of the test, SQLite was chosen as the database solution.
+
+
+
+
+## Environment Variables
+   To run the application, you need to define some environment variables. Below are the required variables:
+   
+   - OMDB_API_KEY: (required) Your API key to access the OMDB database. You 
+   can obtain it here.
+   
+   - SECRET_KEY: (required) A secret key used for authentication and token 
+   signing. Make sure to use a secure key.
+   
+   - MOVIE_TITLES: (optional) A comma-separated list of movie titles. If not 
+   set, the application will use default values
