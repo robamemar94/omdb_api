@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: API for managing movie operations
 servers:
-  - url: http://localhost:8000  # Change to your server URL
+  - url: https://brite-test-388527781986.us-central1.run.app
 paths:
   /movies:
     get:
@@ -50,21 +50,18 @@ paths:
           description: Filter movies by release year (e.g., "1999").
           schema:
             type: string
-            example: "1999"
         - name: movie_type
           in: query
           required: false
           description: Filter movies by type (e.g., "Action").
           schema:
             type: string
-            example: "Action"
         - name: imdb_id
           in: query
           required: false
           description: Filter movies by IMDb ID (e.g., "tt1234567").
           schema:
             type: string
-            example: "tt1234567"
       responses:
         '200':
           description: A successful response containing the list of movies
@@ -97,6 +94,8 @@ paths:
                               type: string
                             imdb_id:
                               type: string
+                            poster:
+                              type: string
                   message:
                     type: string
         '400':
@@ -105,9 +104,9 @@ paths:
           description: Not found
     post:
       summary: Add a new movie
-      description: This endpoint allows you to add a new movie to the database by providing the movie title.
       tags:
         - Movies
+      description: Adds a new movie to the database. The movie is searched in the OMDB database using the provided title. If found, its details are fetched and saved in the local database.
       requestBody:
         required: true
         content:
@@ -117,13 +116,47 @@ paths:
               properties:
                 title:
                   type: string
+                  description: The title of the movie to be added.
               required:
                 - title
       responses:
         '201':
-          description: Movie created successfully
+          description: Movie successfully added.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Movie 'montecristo' added successfully."
+                  movie:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: The unique ID of the movie.
+                      title:
+                        type: string
+                        description: The title of the movie.
+                      year:
+                        type: string
+                        description: The year of the movie's release.
+                      movie_type:
+                        type: string
+                        description: The type of the movie (e.g., series, movie).
+                      imdb_id:
+                        type: string
+                        description: The IMDb ID of the movie.
+                      poster:
+                        type: string
+                        description: The URL of the movie's poster.
         '400':
-          description: Movie title is required
+          description: The request body is missing required fields.
+        '409':
+          description: The movie is already registered in the database.
+        '404':
+          description: Movie not found in OMDB.
   /movies/{movie_id}:
     get:
       summary: Get a movie by ID
@@ -138,8 +171,31 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        '200':  # <-- Corregido de esta manera
           description: Movie details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: Unique identifier for the movie.
+                  title:
+                    type: string
+                    description: Title of the movie.
+                  year:
+                    type: string
+                    description: Release year of the movie.
+                  movie_type:
+                    type: string
+                    description: Type of the movie (e.g., movie, series).
+                  imdb_id:
+                    type: string
+                    description: IMDb ID of the movie.
+                  poster:
+                    type: string
+                    description: URL of the movie poster.
         '404':
           description: Movie not found
     delete:
@@ -159,6 +215,8 @@ paths:
           description: Movie deleted successfully
         '404':
           description: Movie not found
+        '401':
+          description: Not authorized
 
   /register:
     post:

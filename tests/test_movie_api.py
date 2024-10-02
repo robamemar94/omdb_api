@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from api.api_server import MovieAPI
+from api.movie_api import MovieAPI
 from database.models import Movie
 from database.database import DatabaseSession
 from services.omdb_service import OMDBService

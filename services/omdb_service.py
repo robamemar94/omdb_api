@@ -120,10 +120,10 @@ class OMDBService:
             params (dict): Parameters to pass to the API.
 
         Returns:
-            dict: API response data.
+            dict or None: API response data or None if no movie is found.
 
         Raises:
-            ValueError: If the API response indicates an error.
+            ValueError: If the API response indicates an error other than movie not found.
         """
         try:
             response = requests.get(self.BASE_URL, params=params)
@@ -133,7 +133,7 @@ class OMDBService:
 
             if 'Error' in data:
                 logger.error("Error fetching data: %s", data['Error'])
-                raise ValueError(data['Error'])
+                return None
 
             return data
 
