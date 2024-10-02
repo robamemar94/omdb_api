@@ -9,7 +9,8 @@ from services.movie_service import find_unique_movies
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-DATABASE_URL = os.getenv('DATABASE_URL')
+db_path = os.path.join(os.getcwd(), 'local_movies.db')
+DATABASE_URL = f'sqlite:///{db_path}'
 
 
 class DatabaseSession:
