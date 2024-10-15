@@ -183,3 +183,27 @@ This process ensures that when you start the API, there will be movies available
    
    - MOVIE_TITLES: (optional) A comma-separated list of movie titles. If not 
    set, the application will use default values
+
+## Mini Guide to Run Docker and Execute Tests
+
+### 1. Build the Docker Image
+First, navigate to the directory containing your Dockerfile and build the Docker image with the following command:
+
+```bash
+sudo docker build -t omdb_api .
+```
+
+### 2. Run the Docker Container
+
+To run the Docker container with the required environment variable (replace YOUR_OMDB_API_KEY with your actual API key):
+
+```bash
+sudo docker run --name omdb_api_container -p 8080:8080 -e OMDB_API_KEY=YOUR_OMDB_API_KEY -d omdb_api
+```
+
+### 3. Execute Tests
+Once the container is running, execute the tests using the following command:
+
+```bash
+sudo docker exec -it omdb_api_container python -m unittest discover -s /app/tests
+```
